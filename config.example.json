@@ -1,0 +1,7 @@
+{
+  "task_board_root": "examples/task-board",
+  "skills_roots": ["examples/skills"],
+  "enable_ai": false,
+  "bridge_url": "http://127.0.0.1:8791",
+  "remote_devices": []
+}

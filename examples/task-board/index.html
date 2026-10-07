@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>我的任务看板</title>
+<style>
+:root{color-scheme:light;--ink:#38283e;--muted:#7a7180;--grape:#62436b;--line:#e7e1e9}*{box-sizing:border-box}body{margin:0;background:#f8f6f1;color:var(--ink);font:15px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif}button,input{font:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible{outline:3px solid #bba1c3;outline-offset:3px}.site-header{padding:20px 32px;border-bottom:1px solid var(--line)}.site-header img{width:32px;height:32px;vertical-align:middle;margin-right:10px;border-radius:50%}.shell{max-width:1120px;margin:auto;padding:30px}.hero-kicker{font-size:12px;letter-spacing:.12em;color:var(--muted)}h1{font-size:34px;line-height:1.4;margin:12px 0}p{color:var(--muted)}.hero-inner{padding:22px 0 30px}.toolbar{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:24px}.toolbar input{background:#fff;border:1px solid var(--line);border-radius:999px;padding:10px 18px;flex:1;min-width:200px}.filters{display:flex;gap:6px}.filters button{border:0;border-radius:999px;padding:9px 16px;background:transparent;color:var(--muted)}.filters button[aria-pressed=true]{background:#ede4f1;color:var(--grape)}#task-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.task-row{display:flex;flex-direction:column;align-items:stretch;gap:14px;text-align:left;width:100%;padding:24px;background:white;color:var(--ink);border:1px solid var(--line);border-radius:18px;transition:border-color .15s}.task-row:hover{border-color:#bba1c3}.task-row h2{font-size:19px;margin:0}.task-row p{margin:0;line-height:1.8}.task-row .pill{font-size:11px;background:#f0eaf2;border-radius:999px;align-self:flex-start;padding:3px 12px;color:var(--grape)}.card-footer{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:12px;margin-top:auto;padding-top:15px;border-top:1px solid var(--line)}.empty{grid-column:1/-1;text-align:center;padding:40px}.foot{margin-top:26px;font-size:12px}@media(max-width:650px){.shell{padding:20px}#task-list{grid-template-columns:1fr}h1{font-size:27px}.filters button{padding:8px 12px}}
+</style></head>
+<body><header class="site-header"><img src="/static/assets/default-avatar.svg" alt=""><span class="profile-name">我的空间</span></header><main class="shell"><div class="hero-inner"><span class="hero-kicker">MAKE ROOM FOR WHAT MATTERS</span><h1>把想做的事，一件件推进。</h1><p>这里是可替换的演示看板。所有任务均为虚构示例。</p></div><div class="toolbar"><input id="search" type="search" placeholder="搜索任务…" aria-label="搜索任务"><div class="filters"><button type="button" data-filter="all" aria-pressed="true">全部</button><button type="button" data-filter="progress" aria-pressed="false">进行中</button><button type="button" data-filter="waiting-user" aria-pressed="false">待确认</button></div></div><div id="task-list"></div><p class="foot">点击任务打开独立详情页；从工作台卡片复制 HTML 路径，交给可以访问同一磁盘的 AI。</p></main><script id="task-data" type="application/json">[{"id": "launch-demo", "title": "整理我的第一份任务", "priority": 0, "status": "progress", "status_label": "", "brief": "这是虚构示例，用于体验任务交接。", "summary": "梳理目标与完成标准。", "next": ["把任务拆成可执行的下一步。"], "log": ["创建示例任务。"], "parent": null, "updated": "2026-01-01", "source_status": "ready", "blocker": "暂无，所有内容均为演示。", "subtitle": "虚构示例", "strategy": []}, {"id": "skill-library", "title": "沉淀一个可复用 Skill", "priority": 1, "status": "progress", "status_label": "", "brief": "把重复工作变成可复制的操作说明。", "summary": "记录一个稳定的工作流程。", "next": ["创建草稿，检查引用，再登记验证结果。"], "log": ["创建示例任务。"], "parent": null, "updated": "2026-01-01", "source_status": "ready", "blocker": "暂无，所有内容均为演示。", "subtitle": "虚构示例", "strategy": []}, {"id": "weekly-review", "title": "准备一次每周复盘", "priority": 1, "status": "waiting-user", "status_label": "", "brief": "这是虚构示例，不包含真实项目资料。", "summary": "回顾本周已完成的工作。", "next": ["选出下一周最重要的三件事。"], "log": ["创建示例任务。"], "parent": null, "updated": "2026-01-01", "source_status": "ready", "blocker": "暂无，所有内容均为演示。", "subtitle": "虚构示例", "strategy": []}]</script><script>
+(() => {
+  const tasks = JSON.parse(document.getElementById('task-data').textContent);
+  const list = document.getElementById('task-list');
+  const search = document.getElementById('search');
+  let filter = 'all';
+  function render() {
+    list.replaceChildren();
+    const query = search.value.trim().toLowerCase();
+    const visible = tasks.filter(t => (filter === 'all' || t.status === filter) && [t.title,t.brief].join(' ').toLowerCase().includes(query));
+    for (const task of visible) {
+      const card = document.createElement('button');card.type = 'button';card.className = 'task-row';card.dataset.task = task.id;
+      const status = document.createElement('span');status.className = 'pill';status.textContent = task.status === 'waiting-user' ? '待确认' : task.status === 'done' ? '已完成' : '进行中';
+      const title = document.createElement('h2');title.textContent = task.title;
+      const brief = document.createElement('p');brief.textContent = task.brief;
+      const footer = document.createElement('div');footer.className = 'card-footer';
+      const priority = document.createElement('span');priority.textContent = 'P' + task.priority;
+      const link = document.createElement('span');link.textContent = '查看任务 →';footer.append(priority,link);
+      card.append(status,title,brief,footer);list.append(card);
+    }
+    if (!visible.length) {const hint = document.createElement('p');hint.className = 'empty';hint.textContent = '没有匹配的任务';list.append(hint);}
+  }
+  search.addEventListener('input',render);
+  document.querySelectorAll('[data-filter]').forEach(button => button.addEventListener('click',() => {
+    filter = button.dataset.filter;
+    document.querySelectorAll('[data-filter]').forEach(item => item.setAttribute('aria-pressed',String(item === button)));
+    render();
+  }));
+  render();
+})();
+</script></body></html>

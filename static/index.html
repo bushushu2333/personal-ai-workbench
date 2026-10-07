@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#30223f">
+  <title>个人工作台</title>
+  <link rel="stylesheet" href="/static/style.css?v=20261007-card-copy10">
+  <script src="/static/app.js?v=20261007-card-copy10" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+  <aside class="sidebar" id="sidebar">
+    <a href="#home" class="brand"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg></span><span>个人工作台<small>任务 · 发现 · 能力</small></span></a>
+    <div class="nav-caption">我的空间</div>
+    <nav id="navigation" aria-label="主导航"></nav>
+    <div class="sidebar-bottom"><div class="local-note"><span class="pulse-dot"></span><span id="sidebar-status">正在连接工作台</span></div><button class="profile" data-action="about"><img class="avatar user-avatar" src="/static/assets/default-avatar.svg" alt=""><span>我的空间<small>个人工作空间</small></span><span class="profile-dots">···</span></button></div>
+  </aside>
+  <div class="mobile-backdrop" id="mobile-backdrop"></div>
+  <div class="app-shell">
+    <header class="topbar"><div class="topbar-start"><button class="icon-button mobile-menu" data-action="menu" aria-label="打开导航">☰</button><span class="breadcrumb">我的工作台 <span>/</span> <strong id="breadcrumb-current">首页</strong></span></div><div class="topbar-actions"><span class="connection" id="connection">连接中</span><button class="button subtle small" data-action="refresh-all"><span aria-hidden="true">↻</span> 刷新</button><img class="top-avatar user-avatar" src="/static/assets/default-avatar.svg" alt="我的空间"></div></header>
+    <main id="main" tabindex="-1"><div class="initial-loading"><span class="loading-ring"></span><h1>打开你的工作空间</h1><p>正在读取任务与本地状态…</p></div></main>
+    <footer class="app-footer"><span>把注意力留给重要的事。</span><span id="footer-updated">个人工作台</span></footer>
+  </div>
+  <dialog id="modal" aria-labelledby="modal-title"><form id="modal-form"><div class="modal-head"><div><span class="eyebrow" id="modal-eyebrow">我的工作台</span><h2 id="modal-title"></h2></div><button type="button" class="icon-button" data-action="close-modal" aria-label="关闭弹窗">✕</button></div><div class="modal-body" id="modal-body"></div><div class="modal-footer" id="modal-footer"><button type="button" class="button secondary" data-action="close-modal">关闭</button><button type="submit" id="modal-submit" class="button primary">保存</button></div></form></dialog>
+  <div id="toast-region" class="toast-region" role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+# All locally generated or imported information is private.
+/data/
+/artifacts/
+/release/
+/private/
+/config.local.json
+*.local.json
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+*.sqlite*
+*.db
+*.log
+*.zip
+*.pem
+*.key
+*.p12
+*.pfx
+*.bak
+.DS_Store
+.idea/
+.vscode/
