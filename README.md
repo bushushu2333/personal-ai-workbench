@@ -4,6 +4,16 @@
 
 **本地优先 · 单人使用 · 无云端账户 · Python + 原生前端 · MIT**
 
+## 界面预览
+
+以下截图来自隔离的演示环境，任务内容与设备地址已用实心遮挡。未使用真实任务、设备清单、私人 Skills 或个人头像；点击图片可查看大图。
+
+| 首页 · 今日重点与心情 | 任务看板 · 直接复制 HTML 路径 |
+| --- | --- |
+| [![首页脱敏预览](docs/screenshots/home.jpg)](docs/screenshots/home.jpg) | [![任务看板脱敏预览](docs/screenshots/tasks.jpg)](docs/screenshots/tasks.jpg) |
+| **Skills 库 · 常用能力与一键复制** | **设备管理 · 资源状态与环境分组** |
+| [![Skills 库演示预览](docs/screenshots/skills.jpg)](docs/screenshots/skills.jpg) | [![设备管理脱敏预览](docs/screenshots/devices.jpg)](docs/screenshots/devices.jpg) |
+
 ## 可以做什么
 
 | 页面 | 功能 |
@@ -100,7 +110,7 @@ AI 列表初始为暂停。页面上明确启用后，应用才读取进程状�
 - 发现页会从 **aihot.news、github.com、api.github.com** 读取公共数据。请求不携带任务、Skills、设备信息、兴趣标签或 API 凭据；对方仍可看到标准网络连接信息。外部链接由浏览器直接打开。
 - AI 与远端来源默认不采集，只有你配置或启用后才读取。
 - 服务绑定 127.0.0.1，并校验 Host、Origin 和修改请求标识；没有多用户认证，不适合直接暴露到公网或局域网。
-- `.gitignore` 排除运行数据、私有配置、导出文件、日志、密钥与本地资源。公开版本使用全新 Git 历史，不附带真实头像、截图或旧备份。
+- `.gitignore` 排除运行数据、私有配置、导出文件、日志、密钥与本地资源。公开版本使用全新 Git 历史，不附带真实头像、含私人数据的截图或旧备份；只附审核过的演示配图。
 - 本地任务 HTML 与 Skill 导出可能包含你自己的业务内容和绝对路径。发送给其他人之前检查文件；凭据检测只是辅助，不能替代人工检查。
 
 更多边界见 [PRIVACY.md](PRIVACY.md)。资讯与排行榜均保留来源链接；网站接口变化、限流或不可用时保留上次成功快照并显示来源状态。模型榜来自 AIHOT 公共榜页解析，并不是所有模型平台的统一官方 API。

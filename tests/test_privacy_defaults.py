@@ -71,3 +71,13 @@ def test_remote_probe_rejects_unconfigured_alias_before_ssh():
         with pytest.raises(ValueError):
             SourcesService._remote_metrics('unconfigured')
         run.assert_not_called()
+
+
+def test_screenshot_allowlist_requires_exact_reviewed_content():
+    from scripts.privacy_check import ROOT, REVIEWED_IMAGES
+    assert len(REVIEWED_IMAGES) == 4
+    for name in REVIEWED_IMAGES:
+        content = (ROOT / name).read_bytes()
+        assert inspect(name, content) == []
+        assert inspect(name, content + b'extra metadata')
+        assert inspect('docs/screenshots/unreviewed.jpg', content)

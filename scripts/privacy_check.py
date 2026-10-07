@@ -3,6 +3,7 @@
 This conservative guard supplements human review; it is not a DLP guarantee.
 """
 import ipaddress
+import hashlib
 import re
 import subprocess
 import sys
@@ -16,6 +17,14 @@ ROOT_FILES = {
 }
 FOLDERS = {'workbench', 'static', 'examples', 'docs', 'tests', 'scripts', '.github'}
 EXTENSIONS = {'.py', '.js', '.css', '.html', '.md', '.svg', '.yml', '.yaml'}
+# Visually reviewed screenshots from an isolated synthetic-data environment.
+# Replacing any image requires a new content review and digest.
+REVIEWED_IMAGES = {
+    "docs/screenshots/home.jpg": "0666fc4453bdce77f082fb6e2a992fd1b5ecf4274a1aadb38be4829a42ecfaab",
+    "docs/screenshots/tasks.jpg": "a3f0a0fe01f38e40969db6d220e63ccbaec57a0f972cc2bf4e8dd2029b92e462",
+    "docs/screenshots/skills.jpg": "39390fb9521bf6e6223cfb31d93b0de4d6ca287be13c490aec546366b3de460f",
+    "docs/screenshots/devices.jpg": "4f534dbc9e37617737945262dd7c73964e64fbe770d21634a016f84e49381433"
+}
 PATTERNS = [
     ('credential-shaped value', re.compile(r'\b(?:sk-[A-Za-z0-9_-]{24,}|gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,}|AKIA[A-Z0-9]{16})\b')),
     ('private key block', re.compile(r'-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----\s*\n[A-Za-z0-9+/=]{20,}')),
@@ -30,10 +39,17 @@ def inspect(name, data, mode='100644'):
     path = PurePosixPath(name)
     if mode not in ('100644', '100755'):
         problems.append('symlink or submodule is not allowed')
-    if name not in ROOT_FILES and (path.parts[0] not in FOLDERS or path.suffix not in EXTENSIONS):
+    if name not in REVIEWED_IMAGES and name not in ROOT_FILES and (path.parts[0] not in FOLDERS or path.suffix not in EXTENSIONS):
         problems.append('file is outside the public source allowlist')
     if any(part in ('data', 'private', 'artifacts', 'release', '__pycache__', '.venv') for part in path.parts) or name.endswith('.local.json'):
         problems.append('private/runtime path')
+    if name in REVIEWED_IMAGES:
+        if (len(data) > 2 * 1024 * 1024 or not data.startswith(b'\xff\xd8') or not data.endswith(b'\xff\xd9')
+                or hashlib.sha256(data).hexdigest() != REVIEWED_IMAGES[name]):
+            problems.append('screenshot differs from the reviewed image')
+        if b'Exif\x00' in data or b'http://ns.adobe.com/xap' in data:
+            problems.append('screenshot contains image metadata')
+        return problems
     if len(data) > 2 * 1024 * 1024 or b'\x00' in data:
         problems.append('binary or oversized content')
         return problems
